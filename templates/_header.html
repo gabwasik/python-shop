@@ -1,0 +1,65 @@
+{% load cart_tag %}
+<nav class="navbar navbar-expand-lg navbar-light shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand text-success logo h1 align-self-center" href="/">Gitarka</a>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+            <div class="flex-fill">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Strona główna</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/shop">Sklep</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">O nas</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">Kontakt</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <!-- jeżeli użytkownik jest zalogowany, to pokaż: -->
+                {% if user.is_authenticated %}
+                    {% if user.is_superuser %}
+                        <!-- raporty -->
+                        <a class="nav-icon position-relative text-decoration-none" href="/statistics">
+                            <i class="fa fa-fw fa-file-chart-column text-dark mr-1"></i>
+                        </a>
+                    {% else %}
+                        <!-- koszyk -->
+                        <a class="nav-icon position-relative text-decoration-none" href="/cart">
+                            <i class="fa fa-fw fa-shopping-cart text-dark mr-1"></i>
+                            <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">{{ request.session.cart | length }}</span>
+                        </a>
+
+                        <!-- zamówienia -->
+                        <a class="nav-icon position-relative text-decoration-none" href="/orders">
+                            <i class="fa fa-fw fa-clipboard-list text-dark mr-3"></i>
+                        </a>
+                    {% endif %}
+
+                    <!-- wylogowywanie -->
+                    <a class="nav-icon position-relative text-decoration-none" href="/logout">
+                        <i class="fa fa-fw fa-sign-out-alt text-dark mr-3"></i>
+                    </a>
+                <!-- jeżeli nie jest, to tylko: -->
+                {% else %}
+                    <!-- logowanie -->
+                    <a class="nav-icon position-relative text-decoration-none" href="/login">
+                        <i class="fa fa-fw fa-sign-in-alt text-dark mr-3"></i>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>

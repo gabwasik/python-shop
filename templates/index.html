@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Sklep muzyczny Gitarka</title>
+        {% include '_head.html' %}
+    </head>
+
+    <body>
+        {% include "_top-nav.html" %}
+        {% include "_header.html" %}
+
+        <!-- Modal -->
+        <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="w-100 pt-1 mb-5 text-right">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="" method="get" class="modal-content modal-body border-0 p-0">
+                    <div class="input-group mb-2">
+                        <label for="inputModalSearch"></label><input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
+                        <button type="submit" class="input-group-text bg-success text-light">
+                            <i class="fa fa-fw fa-search text-white"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Start Banner Hero -->
+        <div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class="active"></li>
+                <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
+                <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="container">
+                        <div class="row p-5">
+                            <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                                <img class="img-fluid" src="{% static 'shop/img/banner_img_01.png' %}" alt="">
+                            </div>
+                            <div class="col-lg-6 mb-0 d-flex align-items-center">
+                                <div class="text-align-left align-self-center">
+                                    <h1 class="h1 text-success">Sklep muzyczny <b>Gitarka</b></h1>
+                                    <h3 class="h2">Dostawca twojej ulubionej muzyki</h3>
+                                    <p>
+                                        Tęsknisz za czasami bez <strong>serwisów streamingowych?</strong>
+                                        Cieszysz się jak dziecko, kiedy ktoś wręcza Ci album, którego możesz nie tylko <strong>posłuchać</strong>, ale też <strong>dotknąć?</strong>
+                                        Nasz sklep będzie więc <strong>idealnym miejscem</strong> dla Ciebie!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="container">
+                        <div class="row p-5">
+                            <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                                <img class="img-fluid" src="{% static 'shop/img/banner_img_02.png' %}" alt="">
+                            </div>
+                            <div class="col-lg-6 mb-0 d-flex align-items-center">
+                                <div class="text-align-left">
+                                    <h1 class="h1">Słuchanie bez granic</h1>
+                                    <h3 class="h2">Zawsze tam gdzie ty</h3>
+                                    <p>
+                                        Wolisz słuchać <strong>CD-ków?</strong> Nie ma sprawy! A może jesteś koneserem <strong>winylów?</strong> Brawo Ty!
+                                        Wyciągasz czasami z szafy swojego starego Walkman'a na <strong>kasety?</strong> Też żaden problem!
+                                        W naszym sklepie nie liczy się <strong>odtwarzacz</strong> – liczy się <strong>muzyka.</strong>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="container">
+                        <div class="row p-5">
+                            <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                                <img class="img-fluid" src="{% static 'shop/img/banner_img_03.png' %}" alt="">
+                            </div>
+                            <div class="col-lg-6 mb-0 d-flex align-items-center">
+                                <div class="text-align-left">
+                                    <h1 class="h1">Muzyka</h1>
+                                    <h3 class="h2">Wspólny język wszystkich ludzi</h3>
+                                    <p>
+                                        Po co marnować czas, skoro można się w nią zaopatrzyć <strong>już teraz</strong>?
+                                        Śmiało, zajrzyj do <strong>naszej oferty:</strong>
+                                        <br><a href="/shop"><span class="btn btn-success" style="margin-top: 0.75rem">
+                                            <i class="fa fa-list-music fa-xl" style="margin-right: 0.25rem"></i> Przejdź do katalogu
+                                        </span></a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="prev">
+                <i class="fas fa-chevron-left"></i>
+            </a>
+            <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="next">
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+        <!-- End Banner Hero -->
+
+        <!-- Start Categories of The Month -->
+        <section class="container py-5">
+            <div class="row text-center pt-3">
+                <div class="col-lg-6 m-auto">
+                    <h1 class="h1">Nasze produkty</h1>
+                    <p>
+                        Twój ulubiony album nie jest już nigdzie dostępny?
+                        <br>Nic straconego, zajrzyj do naszego magazynu!
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-4 p-5 mt-3">
+                    <a href="/shop?tab=cd"><img src="{% static 'shop/img/category_img_01.jpg' %}" class="rounded-circle img-fluid border" alt=""></a>
+                    <h5 class="text-center mt-3 mb-3">Płyty CD</h5>
+                    <p class="text-center"><a href="/shop?tab=cd" class="btn btn-success">Kup</a></p>
+                </div>
+                <div class="col-12 col-md-4 p-5 mt-3">
+                    <a href="/shop?tab=vinyl"><img src="{% static 'shop/img/category_img_02.jpg' %}" class="rounded-circle img-fluid border" alt=""></a>
+                    <h2 class="h5 text-center mt-3 mb-3">Winyle</h2>
+                    <p class="text-center"><a href="/shop?tab=vinyl" class="btn btn-success">Kup</a></p>
+                </div>
+                <div class="col-12 col-md-4 p-5 mt-3">
+                    <a href="/shop?tab=cassette"><img src="{% static 'shop/img/category_img_03.jpg' %}" class="rounded-circle img-fluid border" alt=""></a>
+                    <h2 class="h5 text-center mt-3 mb-3">Kasety magnetofonowe</h2>
+                    <p class="text-center"><a href="/shop?tab=cassette" class="btn btn-success">Kup</a></p>
+                </div>
+            </div>
+        </section>
+        <!-- End Categories of The Month -->
+
+        <!-- Start Featured Product -->
+        <section class="bg-light">
+            <div class="container py-5">
+                <div class="row text-center py-3">
+                    <div class="col-lg-6 m-auto">
+                        <h1 class="h1">Bestsellery</h1>
+                        <p>
+                            Brakuje Ci inspiracji? Szukasz czegoś nowego?
+                            <br>Zdaj się na nasze najpopularniejsze albumy!
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for album in top3 %}
+                        <div class="col-12 col-md-4 mb-4">
+                            <div class="card h-100">
+                                {% with album.id|slugify as id %}
+                                    <a href="/product/{{ id }}">
+                                        <img src="{% static 'shop/img/product_'|add:id|add:'.jpg' %}" class="card-img-top" alt="...">
+                                    </a>
+                                    <div class="card-body">
+                                        <a href="/product/{{ id }}" class="text-decoration-none" style="color: #59ab6e">
+                                            <b>{{ album.tytul }} ({{ album.rodzaj }})</b>
+                                        </a>
+                                        <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                                            <li>{{ album.wykonawca }}</li>
+                                        </ul>
+                                        <p class="text-end mb-0"><i>{{ album.cena }} zł</i></p>
+                                        <p class="text-end mb-0"><i>(sprzedano {{ album.sprzedano }} szt.)</i></p>
+                                    </div>
+                                {% endwith %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        <!-- End Featured Product -->
+
+        {% include '_footer.html' %}
+    </body>
+</html>

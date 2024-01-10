@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Raporty | sklepgitarka.pl</title>
+    {% include '_head.html' %}
+
+    <style> button { margin-top: 2rem !important } </style>
+    <script src="{% static 'shop/js/jspdf.umd.min.js' %}"></script>
+    <script src="{% static 'shop/js/Arial-normal.js' %}"></script>
+</head>
+
+<body>
+    {% include "_top-nav.html" %}
+    {% include "_header.html" %}
+
+    <!-- Start Content Page -->
+    <div class="container-fluid bg-light py-5">
+        <div class="col-md-6 m-auto text-center">
+            <h1 class="h1">Raporty</h1>
+        </div>
+    </div>
+    <!-- End Content Page -->
+
+    <!-- Start Login -->
+    <div class="container py-5">
+        <div class="row py-5">
+            <form class="col-md-9 m-auto" method="post">
+                {% csrf_token %}
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.errors }}
+                    </div>
+                {% endif %}
+
+                <div class="row">
+                    <label for="miesiac">Miesiąc:</label>
+                    <select id="miesiac" name="miesiac" class="form-control mt-1" required>
+                        <option selected>06</option>
+                    </select>
+
+                    <label for="rok">Rok:</label>
+                    <select id="rok" name="rok" class="form-control mt-1" required>
+                        <option selected>2023</option>
+                    </select>
+
+                    <button type="submit" class="btn btn-success btn-lg px-3">
+                        <i class="fa-solid fa-file-pdf" style="margin-right: 0.25rem"></i> Generuj plik PDF
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- End Login -->
+
+    {% if statistics %}
+        <script>
+            const doc = new jsPDF();
+
+            const date = '{{ statistics.0 }}-{{ statistics.1 }}';
+            const sold = '{{ statistics.2 }}';
+            const revenue = '{{ statistics.3 }}';
+
+            doc.setFont('Arial', 'normal');
+            doc.setFontSize(12);
+
+            doc.text(`Data: ${date}`, 20, 20);
+            doc.text(`Sprzedano: ${sold} szt.`, 20, 30);
+            doc.text(`Zarobiono: ${revenue} zł`, 20, 40);
+            doc.save(`raport-gitarka_${date}.pdf`);
+        </script>
+    {% endif %}
+</body>
+
+</html>

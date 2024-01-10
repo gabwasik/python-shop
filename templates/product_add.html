@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <title>Dodawanie produktu | sklepgitarka.pl</title>
+        {% include '_head.html' %}
+
+        <style>
+            .pb-3 { padding-bottom: unset !important }
+            form { font-weight: 300 !important }
+            label { width: 49.6% }
+            label[for="opis"] { width: 100% }
+            label[for="okladka"] { width: 75% }
+            textarea { all: unset; box-sizing: border-box; white-space: pre-wrap }
+            select, textarea::placeholder { font-family: 'Roboto', sans-serif; font-size: 18px !important; font-weight: 300 !important }
+        </style>
+    </head>
+
+    <body>
+        {% include "_top-nav.html" %}
+        {% include "_header.html" %}
+
+        <!-- Open Content -->
+        <section class="bg-light">
+            <div class="container pb-5">
+                <form id="product-add" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <!-- okładka -->
+                        <div class="col-lg-5 mt-5">
+                            <div class="card mb-3">
+                                <img class="card-img img-fluid" src="{% static 'shop/img/product_0.jpg' %}" alt="Card image cap" id="product-detail">
+                                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                    <label for="okladka"><input class="form-control" type="file" id="okladka" name="okladka" accept="image/png" required></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                {{ form.errors }}
+                            </div>
+                        {% endif %}
+
+                        <!-- dane -->
+                        <div class="col-lg-7 mt-5">
+                            <div class="card">
+                                <div class="card-body">
+                                    <!-- tytuł + rodzaj -->
+                                    <label for="tytul"><input type="text" class="form-control mt-1" id="tytul" name="tytul" placeholder="Tytuł" required></label>
+                                    <label for="rodzaj">
+                                        <select class="form-control mt-1" id="rodzaj" name="rodzaj" required>
+                                            <option value="" disabled selected hidden>Rodzaj</option>
+                                            <option value="CD">CD</option>
+                                            <option value="winyl">winyl</option>
+                                            <option value="kaseta">kaseta</option>
+                                        </select>
+                                    </label>
+
+                                    <!-- cena + ilość -->
+                                    <br><label for="cena"><input type="number" class="form-control mt-1" id="cena" name="cena" placeholder="Cena" min="0.00" step="0.01" required></label>
+                                    <label for="ilosc"><input type="number" class="form-control mt-1" id="ilosc" name="ilosc" placeholder="Ilość sztuk" min="0" required></label>
+
+                                    <!-- wykonawca + rok wydania -->
+                                    <br><label for="wykonawca"><input type="text" class="form-control mt-1" id="wykonawca" name="wykonawca" placeholder="Wykonawca" required></label>
+                                    <label for="rok_wydania"><input type="number" class="form-control mt-1" id="rok_wydania" name="rok_wydania" placeholder="Rok wydania" min="1900" required></label>
+
+                                    <!-- gatunek + ilość utworów -->
+                                    <br><label for="gatunek"><input type="text" class="form-control mt-1" id="gatunek" name="gatunek" placeholder="Gatunek" required></label>
+                                    <label for="ilosc_utworow"><input type="number" class="form-control mt-1" id="ilosc_utworow" name="ilosc_utworow" placeholder="Ilość utworów" min="1" required></label>
+
+                                    <!-- opis -->
+                                    <br><label for="opis"><textarea class="form-control mt-1" id="opis" name="opis" placeholder="Opis" rows="6" required></textarea></label>
+
+                                    <!-- przycisk -->
+                                    <ul class="list-inline pb-3" style="float: right; margin-top: 1rem; margin-bottom: unset">
+                                        <li class="list-inline-item">
+                                            <span class="btn btn-success" onclick="document.getElementById('product-add').requestSubmit()">
+                                                <i class="fa fa-album-circle-plus fa-xl" style="margin-right: 0.25rem"></i> Dodaj produkt
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!-- Close Content -->
+
+        {% include '_footer.html' %}
+    </body>
+</html>

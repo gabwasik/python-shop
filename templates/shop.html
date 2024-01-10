@@ -1,0 +1,176 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <title>Sklep | sklepgitarka.pl</title>
+        {% include '_head.html' %}
+
+        <style>
+            .col-lg-9 { width: 100% }
+            .aktywna { font-weight: 500 }
+            #tab_cd, #tab_vinyl, #tab_cassette { font-size: 2.3rem }
+            .btn { line-height: 2.5rem; font-size: large }
+            .list-inline-item { margin-right: 1rem !important }
+            #cd .col-md-4, #vinyl .col-md-4, #cassette .col-md-4 { width: 25% }
+        </style>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                let category = new URLSearchParams(window.location.search).get('tab');
+                if (!category) category = 'cd';
+
+                document.getElementById('tab_' + category).setAttribute('class', 'aktywna');
+                document.getElementById(category).removeAttribute('style');
+                document.getElementById('tab_').setAttribute('class', 'aktywna');
+            })
+
+            function pokazTylko(tab) {
+                let tabs = ['cd', 'vinyl', 'cassette'];
+                for (let i = 0; i < tabs.length; i++) {
+                    if (tabs[i] === tab) {
+                        document.getElementById('tab_' + tab).setAttribute('class', 'aktywna');
+                        document.getElementById(tab).removeAttribute('style');
+                        continue;
+                    }
+
+                    document.getElementById('tab_' + tabs[i]).removeAttribute('class');
+                    document.getElementById(tabs[i]).style.display = 'none';
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+        {% include "_top-nav.html" %}
+        {% include "_header.html" %}
+
+        <!-- Start Content -->
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-inline shop-top-menu pb-3 pt-1">
+                                <li class="list-inline-item">
+                                    <a href="#" class="h3 text-dark text-decoration-none mr-3" onclick="pokazTylko('cd')"><span id="tab_cd">Płyty</span></a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="#" class="h3 text-dark text-decoration-none" onclick="pokazTylko('vinyl')"><span id="tab_vinyl">Winyle</span></a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="#" class="h3 text-dark text-decoration-none" onclick="pokazTylko('cassette')"><span id="tab_cassette">Kasety</span></a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- dodawanie nowych płyt -->
+                        {% if user.is_superuser %}
+                            <div class="col-md-6 pb-4">
+                                <div class="d-flex" style="float: right">
+                                    <a href="/product/add">
+                                        <span class="btn btn-success" style="margin-left: 0.5rem">
+                                            <i id="przycisk" class="fa-solid fa-rectangle-history-circle-plus fa-xl" style="margin-right: 0.25rem"></i> Dodaj płytę
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    {% if spis %}
+                        <!-- Płyty -->
+                        <div class="row" id="cd" style="display: none">
+                            {% for plyta in spis %}
+                                {% if plyta.rodzaj == "CD" %}
+                                    <div class="col-md-4">
+                                        {% with plyta.id|slugify as id %}
+                                            <div class="card mb-4 product-wap rounded-0">
+                                                <div class="card rounded-0">
+                                                    <img class="card-img rounded-0 img-fluid" src="{% static 'shop/img/product_'|add:id|add:'.jpg' %}" alt="">
+                                                        <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                                            <ul class="list-unstyled">
+                                                                <li><a class="btn btn-info text-white mt-2" href="/product/{{ id }}"><i class="far fa-eye"></i></a></li>
+                                                                <li><a class="btn btn-success text-white mt-2" href="/cart/add/{{ id }}/1"><i class="fas fa-cart-plus"></i></a></li>
+                                                            </ul>
+                                                        </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <a href="/product/{{ id }}" class="h3 text-decoration-none"><b>{{ plyta.tytul }}</b></a>
+                                                    <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                                                        <li>{{ plyta.wykonawca }}</li>
+                                                    </ul>
+                                                    <p class="text-end mb-0"><i>{{ plyta.cena }} zł</i></p>
+                                                </div>
+                                            </div>
+                                        {% endwith %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        <!-- Winyle -->
+                        <div class="row" id="vinyl" style="display: none">
+                            {% for plyta in spis %}
+                                {% if plyta.rodzaj == "winyl" %}
+                                    <div class="col-md-4">
+                                        <div class="card mb-4 product-wap rounded-0">
+                                            <div class="card rounded-0">
+                                                {% with plyta.id|slugify as id %}<img class="card-img rounded-0 img-fluid" src="{% static 'shop/img/product_'|add:id|add:'.jpg' %}" alt="">
+                                                    <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                                        <ul class="list-unstyled">
+                                                            <li><a class="btn btn-success text-white mt-2" href="/product/{{ id }}"><i class="far fa-eye"></i></a></li>
+                                                            <li><a class="btn btn-success text-white mt-2" href="/cart/add/{{ id }}/1"><i class="fas fa-cart-plus"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                {% endwith %}
+                                            </div>
+                                            <div class="card-body">
+                                                <a href="/shop_single" class="h3 text-decoration-none"><b>{{ plyta.tytul }}</b></a>
+                                                <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                                                    <li>{{ plyta.wykonawca }}</li>
+                                                </ul>
+                                                <p class="text-end mb-0"><i>{{ plyta.cena }} zł</i></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        <!-- Kasety -->
+                        <div class="row" id="cassette" style="display: none">
+                            {% for plyta in spis %}
+                                {% if plyta.rodzaj == "kaseta" %}
+                                    <div class="col-md-4">
+                                        <div class="card mb-4 product-wap rounded-0">
+                                            <div class="card rounded-0">
+                                                {% with plyta.id|slugify as id %}<img class="card-img rounded-0 img-fluid" src="{% static 'shop/img/product_'|add:id|add:'.jpg' %}" alt="">
+                                                    <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                                        <ul class="list-unstyled">
+                                                            <li><a class="btn btn-success text-white mt-2" href="/product/{{ id }}"><i class="far fa-eye"></i></a></li>
+                                                            <li><a class="btn btn-success text-white mt-2" href="/cart/add/{{ id }}/1"><i class="fas fa-cart-plus"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                {% endwith %}
+                                            </div>
+                                            <div class="card-body">
+                                                <a href="/shop_single" class="h3 text-decoration-none"><b>{{ plyta.tytul }}</b></a>
+                                                <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                                                    <li>{{ plyta.wykonawca }}</li>
+                                                </ul>
+                                                <p class="text-end mb-0"><i>{{ plyta.cena }} zł</i></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- End Content -->
+
+        {% include '_footer.html' %}
+    </body>
+</html>

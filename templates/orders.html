@@ -1,0 +1,140 @@
+{% load static %}
+{% load cart_tag %}
+{% load get_item %}
+
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <title>Zamówienia | sklepgitarka.pl</title>
+    {% include '_head.html' %}
+
+    <style>
+        table, th, td { border: 1px solid #e8e8e8 }
+        table { border-collapse: collapse; margin-bottom: 32px }
+        caption { caption-side: top }
+        th, td { text-align: center }
+        th { font-size: larger }
+        .btn { line-height: 2.5rem; font-size: large }
+        .btn-success { margin-left: 1rem }
+        .btn-success:hover { color: #212529 }
+
+        .album {
+            position: relative;
+            height: 10rem;
+            width: 10rem;
+        }
+        .cover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            z-index: 999;
+            transition: .3s;
+
+            opacity: 0;
+            visibility: hidden;
+            background: rgba(0, 0, 0, .2);
+        }
+        .album:hover .cover {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+    <script>
+        let sumy = {};
+        function razem(zamowienie, zlotowki, grosze, ilosc) {
+            console.log(zamowienie, zlotowki, grosze, ilosc);
+
+            if (!zlotowki) {
+                document.getElementById(`razem${zamowienie}`).innerHTML = (sumy[zamowienie].toFixed(2) + ' zł').replace('.', ',');
+                return sumy[zamowienie];
+            }
+
+            if (!sumy[zamowienie]) sumy[zamowienie] = 0;
+            let kwota = (zlotowki + grosze * 0.01) * ilosc;
+            sumy[zamowienie] += kwota;
+
+            console.log(sumy);
+        }
+    </script>
+</head>
+
+<body>
+    {% include "_top-nav.html" %}
+    {% include "_header.html" %}
+
+    <!-- Start Content Page -->
+    <div class="container-fluid bg-light py-5">
+        <div class="col-md-6 m-auto text-center">
+            <h1 class="h1">Zamówienia</h1>
+        </div>
+    </div>
+    <!-- End Content Page -->
+
+    <!-- Start Cart -->
+    <div class="container py-5">
+        <div class="row py-5 col-md-9 m-auto">
+            {% if orders|length > 0 %}
+                {% for k, v in orders.items reversed %}
+                    <table>
+                        <caption>Zamówienie #{{ k }} ({{ dates|get_item:k }})</caption>
+
+                        <tr>
+                            <th>Album</th>
+                            <th>Nazwa</th>
+                            <th>Cena</th>
+                            <th>Ilość</th>
+                            <th>Łącznie</th>
+                        </tr>
+
+                        {% for value in v %}
+                            <tr>
+                                {% with value.plyta.id|slugify as id %}
+                                    <td class="album" style="padding: 0; margin: 0; width: 10rem">
+                                        <img src="{% static 'shop/img/product_'|add:id|add:'.jpg' %}" alt="" style="max-width: 10rem">
+                                        <a href="/product/{{ id }}" class="album cover"><span class="btn btn-info" style="margin: 3.3rem auto auto auto"><i class="fa-solid fa-eye fa-xl"></i></span></a>
+                                    </td>
+                                {% endwith %}
+                                <td>
+                                    {% if value.plyta.rodzaj == "CD" %}
+                                        <i class="fa-solid fa-compact-disc fa-lg"></i>
+                                    {% elif value.plyta.rodzaj == "winyl" %}
+                                        <i class="fa-solid fa-turntable fa-lg"></i>
+                                    {% elif value.plyta.rodzaj == "kaseta" %}
+                                        <i class="fa-solid fa-cassette-tape fa-lg"></i>
+                                    {% endif %}
+                                    {{ value.plyta.tytul }}
+                                </td>
+                                <td>{{ value.cena }} zł</td>
+                                <td>{{ value.ilosc }} szt.</td>
+                                <td>{{ value.cena | multiply:value.ilosc | floatformat:2 }} zł</td>
+                                <script>razem({{ k }}, {{ value.cena }}, {{ value.ilosc }})</script>
+                            </tr>
+                        {% endfor %}
+
+                        <tr style="height: 5rem">
+                            <th colspan="4">Razem:</th>
+                            <td id="razem{{ k }}"><script>razem({{ k }})</script></td>
+                        </tr>
+                    </table>
+                {% endfor %}
+
+                <div class="col-md-auto m-auto" style="padding-top: 2.5rem">
+                    <a href="/shop"><span class="btn btn-success" style="margin-left: 0"><i class="fa fa-list-music fa-xl" style="margin-right: 0.25rem"></i> Przejdź do katalogu</span></a>
+                </div>
+            {% else %}
+                <div class="col-md-6 m-auto text-center">
+                    <i class="fa-thin fa-clipboard-question" style="font-size: 5em"></i>
+                    <h1 class="h1" style="margin-top: 0.25em">Brak zamówień</h1>
+                    <br><a href="/shop"><span class="btn btn-success" style="margin-left: 0"><i class="fa fa-list-music fa-xl" style="margin-right: 0.25rem"></i> Przejdź do katalogu</span></a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <!-- End Login -->
+
+    {% include '_footer.html' %}
+</body>
+
+</html>

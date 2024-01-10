@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Logowanie | sklepgitarka.pl</title>
+    {% include '_head.html' %}
+</head>
+
+<body>
+    {% include "_top-nav.html" %}
+    {% include "_header.html" %}
+
+    <!-- Start Content Page -->
+    <div class="container-fluid bg-light py-5">
+        <div class="col-md-6 m-auto text-center">
+            <h1 class="h1">Logowanie</h1>
+        </div>
+    </div>
+    <!-- End Content Page -->
+
+    <!-- Start Login -->
+    <div class="container py-5">
+        <div class="row py-5">
+            <form class="col-md-9 m-auto" method="post" role="form" action="">
+                {% csrf_token %}
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.errors }}
+                    </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <label for="username">Login</label>
+                    <input id="username" name="username" type="text" class="form-control mt-1" minlength="3" maxlength="32">
+                </div>
+                <div class="mb-3">
+                    <label for="password">Hasło</label>
+                    <input id="password" name="password" type="password" class="form-control mt-1" minlength="8" maxlength="32">
+                </div>
+
+                <br>
+
+                <div class="row">
+                    <div class="form-group col-md-6 mb-3">
+                        Nie masz jeszcze u nas konta?<br>
+                        <a href="/register" class="text-decoration-none" style="color: #59ab6e">Zarejestruj się!</a>
+                    </div>
+                    <div class="col text-end mt-2">
+                        <button name="login" type="submit" class="btn btn-success btn-lg px-3">Zaloguj</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- End Login -->
+
+    {% include '_footer.html' %}
+</body>
+
+</html>
